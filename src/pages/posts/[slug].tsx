@@ -10,7 +10,7 @@ interface PostProps {
         slug: string;
         title: string;
         content: string;
-        updateAt: string;
+        updatedAt: string;
     }
 }
 
@@ -24,7 +24,7 @@ export default function Post({ post }: PostProps) {
             <main className={styles.container}>
                 <article className={styles.post}>
                     <h1>{post.title}</h1>
-                    <time>{post.updateAt}</time>
+                    <time>{post.updatedAt}</time>
                     <div className={styles.postContent} dangerouslySetInnerHTML={{ __html: post.content }} />
                 </article>
             </main>
@@ -36,14 +36,14 @@ export const getServerSideProps: GetServerSideProps = async ({ req, params }) =>
     const session = await getSession({ req })
     const { slug } = params
 
-    // if (!session.activeSubscription) {
-    //     return {
-    //         redirect: {
-    //             destination: '/',
-    //             permanent: false
-    //         }
-    //     }
-    // }
+    if (!session?.activeSubscription) {
+        return {
+            redirect: {
+                destination: '/',
+                permanent: false
+            }
+        }
+    }
 
     const prismic = getPrismicClient(req)
 
@@ -53,7 +53,7 @@ export const getServerSideProps: GetServerSideProps = async ({ req, params }) =>
         slug,
         title: RichText.asText(response.data.title),
         content: RichText.asHtml(response.data.content),
-        updateAt: new Date(response.last_publication_date).toLocaleDateString('pt-BR', {
+        updatedAt: new Date(response.last_publication_date).toLocaleDateString('pt-BR', {
             day: '2-digit',
             month: 'long',
             year: 'numeric'
