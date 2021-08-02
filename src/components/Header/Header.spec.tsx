@@ -27,6 +27,9 @@ describe('Active link component', () => {
             <Header />
         )
 
+        // Para abrir uma pagina web com informações
+        // screen.logTestingPlaygroundURL()
+
         expect(screen.getByText('Home')).toBeInTheDocument()
         expect(screen.getByText('Posts')).toBeInTheDocument()
     })

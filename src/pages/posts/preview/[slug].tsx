@@ -36,7 +36,7 @@ export default function PostPreview({ post }: PostPreviewProps) {
             <main className={styles.container}>
                 <article className={styles.post}>
                     <h1>{post.title}</h1>
-                    <time>{post.updateAt}</time>
+                    <time>{post.updatedAt}</time>
                     <div className={`${styles.postContent} ${styles.previewContent}`} dangerouslySetInnerHTML={{ __html: post.content }} />
                     <div className={styles.continueReading}>
                         Wanna continue reading?
@@ -68,7 +68,7 @@ export const getStaticProps: GetStaticProps = async ({ params }) => {
         slug,
         title: RichText.asText(response.data.title),
         content: RichText.asHtml(response.data.content.splice(0, 3)),
-        updateAt: new Date(response.last_publication_date).toLocaleDateString('pt-BR', {
+        updatedAt: new Date(response.last_publication_date).toLocaleDateString('pt-BR', {
             day: '2-digit',
             month: 'long',
             year: 'numeric'
